@@ -16,28 +16,19 @@ const io = new Server({
   },
 });
 
-const Users: { [index: string]: any } = {};
+
 
 io.on("connection", (socket: Socket) => {
-  const roomId = socket.handshake.query.room;
+
   socket.on("join", (room) => socket.join(room));
 
-  socket.on("private message", (room, msg) => {
-    socket.in(room).emit("private message", msg);
-  });
-
   socket.on("new-user-joined", (room, name) => {
-    console.log("New User Joined", name);
-    Users[socket.id] = name;
-    socket.broadcast.in(room).emit("User Joined", name);
+    socket.broadcast.to(room).emit("User Joined", {message : "user joined", auth : name, time : new Date()});
   });
 
-  socket.on("send", (message) => {
-    socket.broadcast.emit("message", {
-      message: message,
-      name: Users[socket.id],
-    });
-  });
+  socket.on("send",(message,room, name) => {
+    socket.to(room).emit("new message" , { message : message, auth: name, time : new Date() })
+  })
 });
 
 app.use(express.json());

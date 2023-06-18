@@ -1,5 +1,8 @@
-export const otpTemplate = (OTP: number) => {
-  return `<!DOCTYPE html>
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.otpTemplate = void 0;
+const otpTemplate = (OTP) => {
+    return `<!DOCTYPE html>
 	<html lang="en">
 	  <head>
 		<meta charset="UTF-8" />
@@ -60,3 +63,4 @@ export const otpTemplate = (OTP: number) => {
 	</html>
 	`;
 };
+exports.otpTemplate = otpTemplate;
