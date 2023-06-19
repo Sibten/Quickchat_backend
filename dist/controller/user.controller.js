@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addUser = exports.verifyOTP = exports.generateOTP = void 0;
+exports.sendRequest = exports.getMyProfile = exports.getUsers = exports.addUser = exports.verifyOTP = exports.generateOTP = void 0;
 const user_model_1 = require("../model/user.model");
 const otp_model_1 = require("../model/otp.model");
 const email_validator_1 = require("../validator/email.validator");
@@ -39,7 +39,6 @@ const generateOTP = async (req, res) => {
                     email: email_id,
                     date: date,
                     expiryTime: expiryTime,
-                    status: "",
                 });
             }
             else {
@@ -105,3 +104,22 @@ const addUser = async (req, res) => {
     await newuser.save();
 };
 exports.addUser = addUser;
+const getUsers = async (req, res) => {
+    const data = await user_model_1.userModel.find({}).exec();
+    res.status(200).send(data);
+};
+exports.getUsers = getUsers;
+const getMyProfile = async (req, res) => {
+    const findUser = await user_model_1.userModel
+        .findOne({ user_email: req.query.email })
+        .exec();
+    if (findUser) {
+        res.status(200).send(findUser);
+    }
+    else {
+        res.status(400).json({ find: 0, message: "user nnot found!" });
+    }
+};
+exports.getMyProfile = getMyProfile;
+const sendRequest = async (req, res) => { };
+exports.sendRequest = sendRequest;

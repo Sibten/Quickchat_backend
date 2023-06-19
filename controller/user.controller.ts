@@ -47,7 +47,6 @@ export const generateOTP = async (
           email: email_id,
           date: date,
           expiryTime: expiryTime,
-          status: "",
         });
       } else {
         res.status(200).json({
@@ -109,3 +108,22 @@ export const addUser = async (req: Request, res: Response) => {
   const newuser = new userModel(userObject);
   await newuser.save();
 };
+
+export const getUsers = async (req: Request, res: Response) => {
+  const data = await userModel.find({}).exec();
+  res.status(200).send(data);
+};
+
+export const getMyProfile = async (req: Request, res: Response) => {
+  const findUser = await userModel
+    .findOne({ user_email: req.query.email })
+    .exec();
+
+  if (findUser) {
+    res.status(200).send(findUser);
+  } else {
+    res.status(400).json({ find: 0, message: "user nnot found!" });
+  }
+};
+
+export const sendRequest = async (req: Request, res: Response) => {};

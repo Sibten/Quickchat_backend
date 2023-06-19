@@ -17,7 +17,7 @@ const transporter = nodemailer_1.default.createTransport({
 });
 const sendMailtoClient = (email, otp) => {
     let mailoptions = {
-        from: "testphp@mailtest.radixweb.net",
+        from: "Quickchat <testphp@mailtest.radixweb.net>",
         to: email,
         subject: "Quickchat User Authentication: One Time Password",
         html: (0, otp_view_1.otpTemplate)(otp),
