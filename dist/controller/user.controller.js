@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendRequest = exports.getMyProfile = exports.getUsers = exports.addUser = exports.verifyOTP = exports.generateOTP = void 0;
+exports.getMyfriends = exports.getMyProfile = exports.getUsers = exports.addUser = exports.verifyOTP = exports.generateOTP = void 0;
 const user_model_1 = require("../model/user.model");
 const otp_model_1 = require("../model/otp.model");
 const email_validator_1 = require("../validator/email.validator");
@@ -121,5 +121,26 @@ const getMyProfile = async (req, res) => {
     }
 };
 exports.getMyProfile = getMyProfile;
-const sendRequest = async (req, res) => { };
-exports.sendRequest = sendRequest;
+const getMyfriends = async (req, res) => {
+    const data = await user_model_1.userModel.findOne({ user_email: req.query.email }, { friends: 1 }).populate({ path: 'friends', select: 'user_name user_email' }).exec();
+    res.status(200).send(data);
+};
+exports.getMyfriends = getMyfriends;
+// export const sendRequest = async (req: Request, res: Response) => {
+//   let findUser = await userModel
+//     .findOne({ user_email: req.body.from_email })
+//     .exec();
+//   let body = {
+//     user_id: findUser?._id,
+//     status: Invite.send,
+//   };
+//   await userModel
+//     .updateOne(
+//       { user_email: req.body.to_email },
+//       { $push: { invitation: body } },
+//       { upsert: true }
+//     )
+//     .exec();
+//   res.status(200).json({ update: 1, message: "Udpated!" });
+// };
+// export const acceptRequest = (req: Request, res: Response) => {};

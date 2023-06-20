@@ -1,7 +1,9 @@
 import express from "express";
 import { authenticateUser } from '../middleware/user.auth';
-import { getUsers } from '../controller/user.controller';
+import { getMyfriends } from "../controller/user.controller";
+
 import {
+  getUsers,
   generateOTP,
   verifyOTP,
   getMyProfile,
@@ -11,8 +13,7 @@ export const userRouter = express.Router();
 
 userRouter.post("/generateotp", generateOTP);
 userRouter.post("/verify", verifyOTP);
-
-userRouter.use(authenticateUser)
+userRouter.use(authenticateUser);
 userRouter.get("/getmyprofile?", getMyProfile);
-userRouter.get("/getalllist",getUsers)
-// userRouter.post("/sendreq");
+userRouter.get("/getalllist", getUsers);
+userRouter.get("/myfriends", getMyfriends);

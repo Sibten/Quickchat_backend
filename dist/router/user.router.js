@@ -13,5 +13,5 @@ exports.userRouter.post("/generateotp", user_controller_2.generateOTP);
 exports.userRouter.post("/verify", user_controller_2.verifyOTP);
 exports.userRouter.use(user_auth_1.authenticateUser);
 exports.userRouter.get("/getmyprofile?", user_controller_2.getMyProfile);
-exports.userRouter.get("/getalllist", user_controller_1.getUsers);
-// userRouter.post("/sendreq");
+exports.userRouter.get("/getalllist", user_controller_2.getUsers);
+exports.userRouter.get("/myfriends", user_controller_1.getMyfriends);

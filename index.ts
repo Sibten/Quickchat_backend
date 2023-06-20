@@ -5,6 +5,7 @@ import { userRouter } from "./router/user.router";
 import cors from "cors";
 import { chatRoomrouter } from "./router/chatroom.router";
 import { chatRouter } from "./router/chat.router";
+import { invRouter } from "./router/invitation.router";
 env.config();
 
 const app = express();
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/user", userRouter);
 app.use("/chat", chatRouter);
+app.use("/invitation", invRouter);
 app.use("/chatroom", chatRoomrouter);
 app.listen(http_port, () => {
   console.log("HTTP Server is listening at", http_port);

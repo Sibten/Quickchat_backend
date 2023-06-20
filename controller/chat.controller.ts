@@ -2,7 +2,7 @@ import { Request, Response, json } from "express";
 import { chatModel } from "../model/chats.model";
 import { userModel } from "../model/user.model";
 
-export const addMessage = async (req: Request, res: Response) => {
+export const addMessage = async (req: Request, res: Response, msg?: string) => {
   const findUserS = await userModel
     .findOne({ user_email: req.body.from })
     .exec();
@@ -13,7 +13,7 @@ export const addMessage = async (req: Request, res: Response) => {
 
   let messageBody = {
     auth: findUserS?._id,
-    message: req.body.message,
+    message: req.body.message ?? msg,
     timestamp: new Date(),
   };
 
@@ -58,4 +58,10 @@ export const getChatUser = async (req: Request, res: Response) => {
   const data = await chatModel.find({ users: uid }).exec();
 
   res.status(200).send(data);
+};
+
+export const getTwoPartyChat = async (req: Request, res: Response) => {
+  const findUser1 = await userModel
+    .findOne({ user_email: req.query.email1 })
+    .exec();
 };

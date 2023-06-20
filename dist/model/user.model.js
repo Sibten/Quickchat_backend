@@ -13,5 +13,6 @@ mongoose_1.default
 const userSchema = new mongoose_1.default.Schema({
     user_name: String,
     user_email: String,
+    friends: [{ type: mongoose_1.default.Types.ObjectId, ref: "user" }],
 });
 exports.userModel = mongoose_1.default.model("user", userSchema);

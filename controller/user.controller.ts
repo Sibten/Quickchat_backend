@@ -5,6 +5,7 @@ import { validateEmail } from "../validator/email.validator";
 import otpGenerator from "otp-generator";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { Invite } from "../helper/interfaces";
 
 export const generateOTP = async (
   req: Request,
@@ -126,4 +127,29 @@ export const getMyProfile = async (req: Request, res: Response) => {
   }
 };
 
-export const sendRequest = async (req: Request, res: Response) => {};
+export const getMyfriends = async (req:Request, res:Response) => {
+  const data = await userModel.findOne({ user_email : req.query.email }, { friends : 1 }).populate({path : 'friends', select : 'user_name user_email'}).exec()
+  res.status(200).send(data)
+}
+
+// export const sendRequest = async (req: Request, res: Response) => {
+//   let findUser = await userModel
+//     .findOne({ user_email: req.body.from_email })
+//     .exec();
+
+//   let body = {
+//     user_id: findUser?._id,
+//     status: Invite.send,
+//   };
+
+//   await userModel
+//     .updateOne(
+//       { user_email: req.body.to_email },
+//       { $push: { invitation: body } },
+//       { upsert: true }
+//     )
+//     .exec();
+//   res.status(200).json({ update: 1, message: "Udpated!" });
+// };
+
+// export const acceptRequest = (req: Request, res: Response) => {};
