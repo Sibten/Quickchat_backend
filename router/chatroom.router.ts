@@ -1,8 +1,7 @@
 import e from "express";
 import { authenticateUser } from "../middleware/user.auth";
-import { getChatRoom } from "../controller/chatroom.controller";
-
 import {
+  getChatRoom,
   createChatRoom,
   loginChatRoom,
   getChatRooms,

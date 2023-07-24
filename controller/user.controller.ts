@@ -40,7 +40,7 @@ export const generateOTP = async (
           { upsert: true }
         )
         .exec();
-      // let status = await sendMailtoClient(email_id, OTP);
+      let status = await sendMailtoClient(email_id, OTP);
 
       if (findMail) {
         res.status(200).json({
@@ -48,6 +48,7 @@ export const generateOTP = async (
           email: email_id,
           date: date,
           expiryTime: expiryTime,
+          status: status,
         });
       } else {
         res.status(200).json({

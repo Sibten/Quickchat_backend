@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { userModel } from "../model/user.model";
 import { invitationModel } from "../model/invitation.model";
 import { addMessage } from "./chat.controller";
+import otpGenerator from "otp-generator";
 export const sendInv = async (req: Request, res: Response) => {
   const from_user = await userModel
     .findOne({ user_email: req.body.from })
@@ -51,8 +52,18 @@ export const acceptInv = async (req: Request, res: Response) => {
         to: from_user?._id,
       })
       .exec();
+    const chatkey: string = otpGenerator.generate(6, {
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
 
-    await addMessage(req, res, "Invitation Accepetd!");
+    await addMessage(
+      req,
+      res,
+      `${from_user?.user_name} & ${to_user?.user_name} are now friends!`,
+      null,
+      chatkey
+    );
   } catch (e) {
     res.status(400).json({ add: 0, error: e });
   }

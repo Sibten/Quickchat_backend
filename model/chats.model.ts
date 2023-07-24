@@ -20,6 +20,7 @@ const chatSchema = new mongoose.Schema(
         timestamp: Date,
       },
     ],
+    chatkey: String,
   },
   { timestamps: true }
 );

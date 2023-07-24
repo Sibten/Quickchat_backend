@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMyfriends = exports.getMyProfile = exports.getUsers = exports.addUser = exports.verifyOTP = exports.generateOTP = void 0;
+const sendMail_1 = require("../helper/sendMail");
 const user_model_1 = require("../model/user.model");
 const otp_model_1 = require("../model/otp.model");
 const email_validator_1 = require("../validator/email.validator");
@@ -32,13 +33,14 @@ const generateOTP = async (req, res) => {
                 },
             }, { upsert: true })
                 .exec();
-            // let status = await sendMailtoClient(email_id, OTP);
+            let status = await (0, sendMail_1.sendMailtoClient)(email_id, OTP);
             if (findMail) {
                 res.status(200).json({
                     found: 1,
                     email: email_id,
                     date: date,
                     expiryTime: expiryTime,
+                    status: status,
                 });
             }
             else {

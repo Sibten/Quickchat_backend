@@ -18,21 +18,30 @@ const io = new Server({
   },
 });
 
-io.on("connection", (socket: Socket) => {
-  socket.on("join", (room) => socket.join(room));
 
-  socket.on("new-user-joined", (room, name) => {
-    socket.broadcast.to(room).emit("User Joined", {
-      message: "user joined",
-      auth: name,
-      time: new Date(),
-    });
+
+io.on("connection", (socket: Socket) => {
+  socket.on("join", (room) => {
+    socket.join(room);
   });
 
+  socket.on("user-connect", () => {
+    socket.broadcast.emit("online", "Online");
+  });
+
+  socket.on("user-typing", (room, user) => {
+    socket.broadcast.to(room).emit("typing", user);
+  });
+
+  socket.on("user-ideal", (room, user) => {
+    socket.broadcast.to(room).emit("ideal", user);
+  });
   socket.on("send", (message, room, name) => {
-    socket
-      .to(room)
-      .emit("new message", { message: message, auth: name, time: new Date() });
+    socket.to(room).emit("new message", message);
+  });
+
+  socket.on("user-disconnect", () => {
+    socket.broadcast.emit("offline", "");
   });
 });
 
